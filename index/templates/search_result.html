@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Result of search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #ddd;
+            margin: 20px 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+        p {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>Search result</h1>
+<hr>
+{% if result %}
+    {% for i in result %}
+        <img src="{{ i.img }}" alt="{{ i.name }}"><br>
+        <a href="/instructor/{{ i.id }}">{{ i.name }}</a><br><br>
+    {% endfor %}
+{% else %}
+    <p>No results found.</p>
+{% endif %}
+<hr>
+<a href="/">Back</a>
+</body>
+</html>

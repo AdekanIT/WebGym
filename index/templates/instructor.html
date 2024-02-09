@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Instructors</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #ddd;
+            margin: 20px 0;
+        }
+        form input[type="text"],
+        form textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        form button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        form button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+        }
+        .comment {
+            margin-bottom: 10px;
+        }
+        .info {
+            margin-bottom: 10px;
+        }
+        .info strong {
+            display: inline-block;
+            width: 120px;
+        }
+        .field {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .field label {
+            font-weight: bold;
+            display: block;
+        }
+        .field input[type="text"] {
+            width: calc(100% - 120px); /* Adjust width to accommodate label width */
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+<form>
+    {% csrf_token %}
+    <img src="{{ instructor.photo }}" alt="Instructor Photo">
+    <br>
+    <div class="info">
+        <strong>Name:</strong> {{ instructor.name }}<br>
+        <strong>Age:</strong> {{ instructor.age }}<br>
+        <strong>Experience:</strong> {{ instructor.experience }}<br>
+        <strong>Character:</strong> {{ instructor.character }}<br>
+        <strong>Gender:</strong> {{ instructor.gender }}<br>
+        <strong>Branches:</strong> <a href="/branches/{{ instructor.branches.id }}">{{ instructor.branches }}</a><br>
+        <strong>Price:</strong> {{ instructor.price }}$ per month<br>
+    </div>
+</form>
+<hr>
+{% if user.is_authenticated %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.user_comment }}
+        <button type="submit">Submit</button>
+    </form>
+    <br>
+    <form method="post">
+        {% csrf_token %}
+        <div class="info">
+            <div class="field">
+                <label for="user_name">Name:</label>
+                {{ form1.user_name }}
+            </div>
+            <div class="field">
+                <label for="phone_num">Phone number:</label>
+                {{ form1.phone_num }}
+            </div>
+            <div class="field">
+                <label for="subscription">Periods:</label>
+                {{ form1.subscription }}
+            </div>
+        </div>
+        <button type="submit">Order</button>
+    </form>
+{% else %}
+    <p>You are not registered</p>
+{% endif %}
+<hr>
+<form>
+    {% csrf_token %}
+    {% for comment in comments %}
+        <div class="comment">
+            <strong>{{ comment.user }}</strong><br>
+            {{ comment.user_comment }}<br>
+        </div>
+    {% endfor %}
+</form>
+</body>
+</html>
