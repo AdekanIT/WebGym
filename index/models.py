@@ -12,6 +12,16 @@ class Branches(models.Model):
         return self.name
 
 
+class BranchInfo(models.Model):
+    name = models.CharField(max_length=256)
+    branch = models.ForeignKey(Branches, on_delete=models.CASCADE)
+    address = models.CharField(max_length=512)
+    data_crate = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Instructors(models.Model):
     name = models.CharField(max_length=256)
     age = models.IntegerField(blank=True)
@@ -46,7 +56,7 @@ class Order(models.Model):
 class Comments(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     user_topic = models.ForeignKey(Instructors, on_delete=models.CASCADE, blank=True, null=True)
-    user_comment = models.TextField(blank=True, null=True)
+    user_comment = models.TextField(blank=False, null=False)
     user_data = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

@@ -42,6 +42,13 @@
 <body>
 <form method="post">
     {% csrf_token %}
+    {% for i in branch %}
+    Address: {{ i.address }}
+    {% endfor %}
+</form>
+<hr>
+<form method="post">
+    {% csrf_token %}
     {% for i in instructor %}
     <a href="/instructor/{{ i.id }}">{{ i.name }}</a>
     {% endfor %}

@@ -1,9 +1,8 @@
 from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .models import Order, Instructors, Branches, Comments, User
+from .models import Order, Instructors, Branches, Comments, User, BranchInfo
 from .forms import InstructorSearchForm, CommentsForm, OrderForm, SignUpForm
-
 
 
 # Create your views here.
@@ -16,7 +15,9 @@ def home(request):
 def get_all_branch(request, pk):
     branch_id = Branches.objects.get(id=pk)
     instructors = Instructors.objects.filter(branches=branch_id)
-    context = {'instructor': instructors}
+    branch_info = BranchInfo.objects.filter(branch=branch_id)
+    context = {'instructor': instructors,
+               'branch': branch_info}
     return render(request, 'branches.html', context)
 
 
@@ -27,30 +28,25 @@ def get_full_inst(request, pk):
 
     error = ''
     form = CommentsForm()
+    form1 = OrderForm()
 
     if request.method == 'POST':
         form = CommentsForm(request.POST)
+        form1 = OrderForm(request.POST)
+
         if form.is_valid():
             user_comment = form.cleaned_data['user_comment']
             user = request.user
-            Comments.objects.create(user=user, user_topic=instructor, user_comment=user_comment).save()
+            Comments.objects.create(user=user, user_topic=instructor, user_comment=user_comment)
             return redirect('/')
-        else:
-            error = form.errors
-
-    form1 = OrderForm()
-    if request.method == 'POST':
-        form1 = OrderForm(request.POST)
-        if form1.is_valid():
+        elif form1.is_valid():
             user = request.user
             user_name = form1.cleaned_data['user_name']
             sub = form1.cleaned_data['subscription']
             phone = form1.cleaned_data['phone_num']
             Order.objects.create(user=user, user_name=user_name,
-                                 subscription=sub, phone_num=phone, sub_inst=instructor).save()
+                                 subscription=sub, phone_num=phone, sub_inst=instructor)
             return redirect('/')
-        else:
-            error = form1.errors
     context = {
         'instructor': instructor,
         'comments': comments,
