@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,21 +37,20 @@
             margin: 20px 0;
         }
         form input[type="text"],
-        form textarea {
+        form textarea,
+        form button {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
         }
         form button {
-            padding: 8px 15px;
             background-color: #007bff;
             color: #fff;
-            border: none;
-            border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
         form button:hover {
             background-color: #0056b3;
@@ -83,12 +83,15 @@
             border: 1px solid #ccc;
             box-sizing: border-box;
         }
+        .instructor-photo {
+            width: 300px;
+        }
     </style>
 </head>
 <body>
 <form>
     {% csrf_token %}
-    <img src="{{ instructor.photo }}" alt="Instructor Photo">
+    <img src="{{ instructor.photo.url }}" alt="Instructor Photo" class="instructor-photo">
     <br>
     <div class="info">
         <strong>Name:</strong> {{ instructor.name }}<br>

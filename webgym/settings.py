@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-j&$$_1m9q&13c$(bxd*ge0-!+9%*8p5iyn@#t0_cqdc&avqw^7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -130,8 +130,9 @@ import os
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join('BASE_DIR', 'assets')
 STATICFILE_DIR = [
-    os.path.join(BASE_DIR, 'static')
+    os.path.join('static')
 ]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -139,3 +140,5 @@ STATICFILE_DIR = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT = '/'
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
